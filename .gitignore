@@ -9,3 +9,7 @@ cache
 artifacts
 
 specifications.pdf
+
+ganache-gui.AppImage
+
+deployments/
