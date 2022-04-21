@@ -9,12 +9,13 @@ abstract contract ReceiverRestricted is ERC20, Ownable {
     // List of eligible receivers, specified/modified by owner
     address[] public receivers;
 
-    // TODO: only to those addresses
-    // TODO: define event 
+    event Receiver(address indexed recv, string status);
 
     function addReceiver(address _recv) public onlyOwner {
         require(_recv != address(0), "Elonium: can't add zero address");
         require(!receiverExists(_recv), "Elonium: address already exists");
+
+        emit Receiver(_recv, "Add");
 
         receivers.push(_recv);
     }
@@ -22,6 +23,8 @@ abstract contract ReceiverRestricted is ERC20, Ownable {
     function removeReceiver(address _recv) public onlyOwner {
         require(_recv != address(0), "Elonium: can't remove zero address");
         require(receiverExists(_recv), "Elonium: address does not exist");
+
+        emit Receiver(_recv, "Remove");
 
         delete receivers[uint(getReceiverIndex(_recv))];
     }

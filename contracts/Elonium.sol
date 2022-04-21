@@ -7,9 +7,12 @@ import "./ReceiverRestricted.sol";
 
 contract Elonium is ERC20, Ownable, ReceiverRestricted {
 
-    constructor() ERC20("Elonium", "ELM") {
+    uint256 public unitsPerCelo;
+
+    constructor(uint256 _unitsPerCelo) ERC20("Elonium", "ELM") {
         _mint(msg.sender, 10000000 * 10 ** decimals());
         receivers.push(msg.sender);
+        unitsPerCelo = _unitsPerCelo;
     }
 
     function mint(address to, uint256 amount) public onlyOwner {
@@ -50,5 +53,16 @@ contract Elonium is ERC20, Ownable, ReceiverRestricted {
 
         // All tokens should be burned
         assert(totalSupply() == 0);
+    }
+
+    receive() external payable {
+        uint256 amount = (msg.value * unitsPerCelo) / 1e18;
+        require(balanceOf(owner()) >= amount, "Elonium: not enough tokens");
+        _transfer(owner(), msg.sender, amount);
+
+        emit Transfer(owner(), msg.sender, amount);
+        
+        // Send celo earned back to the owner
+        payable(owner()).transfer(msg.value);
     }
 }

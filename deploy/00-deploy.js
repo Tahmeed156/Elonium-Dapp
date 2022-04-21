@@ -4,7 +4,7 @@ module.exports = async ({getNamedAccounts, deployments}) => {
   const {deployer} = await getNamedAccounts();
   await deploy('Elonium', {
     from: deployer,
-    // args: ["hello world"],
+    args: [100],
     log: true,
   });
 };
