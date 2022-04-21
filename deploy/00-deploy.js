@@ -2,10 +2,10 @@
 module.exports = async ({getNamedAccounts, deployments}) => {
   const {deploy} = deployments;
   const {deployer} = await getNamedAccounts();
-  await deploy('Greeter', {
+  await deploy('Elonium', {
     from: deployer,
-    args: ["hello world"],
+    // args: ["hello world"],
     log: true,
   });
 };
-module.exports.tags = ['Greeter'];
+module.exports.tags = ['Elonium'];
