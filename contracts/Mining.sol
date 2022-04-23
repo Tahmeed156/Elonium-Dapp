@@ -37,4 +37,21 @@ abstract contract Mining is ERC20 {
         currentChallenge = keccak256(abi.encodePacked(nonce, currentChallenge, blockhash(block.number - 1)));
     }
 
+    function minePOS() public {
+
+        uint256 currentHash = uint256(blockhash(block.number - 1));
+        uint256 senderBalance = balanceOf(msg.sender);
+
+        // Check if hash value falls in a certain criteria
+        // Gives preference to senders with hihger stake
+        // Taking remainder of block hash incorporates randomness
+        require(currentHash % totalSupply() < senderBalance, "Mining: invalid hash value");
+
+        // Reward miner based to time taken
+        uint timeSinceLastProof = (block.timestamp - timeOfLastProof); 
+        uint256 reward = timeSinceLastProof / 60 seconds; 
+        _mint(msg.sender, reward);
+
+        timeOfLastProof = block.timestamp;
+    }
 }
