@@ -6,13 +6,13 @@ module.exports = async ({getNamedAccounts, deployments}) => {
 
   elm = await deploy('Elonium', {
     from: deployer,
-    args: [100],
+    args: [process.env.UNITS_PER_CELO],
     log: true,
   });
 
   await deploy('Lori', {
     from: deployer,
-    args: [elm.receipt.contractAddress, 100],
+    args: [elm.receipt.contractAddress, process.env.ELM_PER_NFT],
     log: true,
   });
 };

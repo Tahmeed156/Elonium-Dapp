@@ -57,7 +57,7 @@ contract Elonium is ERC20, Ownable, ReceiverRestricted, Mining {
     }
 
     receive() external payable {
-        uint256 amount = (msg.value * unitsPerCelo) / 1e18;
+        uint256 amount = (msg.value * unitsPerCelo);
         require(balanceOf(owner()) >= amount, "Elonium: not enough tokens");
         _transfer(owner(), msg.sender, amount);
 

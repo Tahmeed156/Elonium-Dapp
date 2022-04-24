@@ -39,4 +39,8 @@ abstract contract ReceiverRestricted is ERC20, Ownable {
                 return int(i);
         return -1;
     }
+
+    function getReceivers() public view returns (address[] memory) {
+        return receivers;
+    }
 }
