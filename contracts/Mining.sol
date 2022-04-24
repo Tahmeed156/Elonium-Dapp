@@ -7,8 +7,8 @@ abstract contract Mining is ERC20 {
 
     bytes32 private currentChallenge;
     uint private difficulty = 10**32;
-    uint public timeOfLastProof;
-    uint private lastBlockRewarded;
+    uint public timeOfLastProof = block.timestamp;
+    uint private lastBlockRewarded = block.number;
 
 
     function minePOW(uint nonce) public {
@@ -22,7 +22,7 @@ abstract contract Mining is ERC20 {
         require(timeSinceLastProof >=  5 seconds); 
         
         // Prevent misuse e.g. attempting reward multiple times in same block
-        require(lastBlockRewarded >= block.number, "Mining: not a new block number");
+        require(lastBlockRewarded < block.number, "Mining: not a new block number");
         lastBlockRewarded = block.number;
 
         // Reward given to the sender, increases with time taken
